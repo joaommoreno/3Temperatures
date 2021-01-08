@@ -1768,11 +1768,27 @@ summary {
 <h2>Importing data into R</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGVtcGVyYXR1cmU8LSByZWFkLmNzdihcIi4vRmVjXzNULmNzdlwiLCBoZWFkZXI9VFJVRSwgbmEuc3RyaW5ncyA9IFwiTVZcIilcbmhlYWQodGVtcGVyYXR1cmUpICNzZWUgYSBzbWFsbCBzYW1wbGUgb2YgdGhlIGRhdGFzZXQgdG8gY2hlY2sgaWYgcHJvcGVybHkgaW1wb3J0ZWRcbnN0cih0ZW1wZXJhdHVyZSlcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGVtcGVyYXR1cmU8LSByZWFkLmNzdihcIi4vRmVjXzNULmNzdlwiLCBoZWFkZXI9VFJVRSwgbmEuc3RyaW5ncyA9IFwiTVZcIilcbmhlYWQodGVtcGVyYXR1cmUpICNzZWUgYSBzbWFsbCBzYW1wbGUgb2YgdGhlIGRhdGFzZXQgdG8gY2hlY2sgaWYgcHJvcGVybHkgaW1wb3J0ZWRcbmBgYCJ9 -->
 <pre class="r"><code>temperature&lt;- read.csv(&quot;./Fec_3T.csv&quot;, header=TRUE, na.strings = &quot;MV&quot;)
-head(temperature) #see a small sample of the dataset to check if properly imported
-str(temperature)</code></pre>
+head(temperature) #see a small sample of the dataset to check if properly imported</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6NH0sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUFCWW1aV0lKT0J6VG5BME1qVWlJR0JoUW5JWXdUS2NJTG9DcUFxWVNDREJZZ0ZRTXFnRWt5T0tYaFl6TzVGK1RpWURBeThZR01ndEJBUWk2T3grVUR5QjB5YSt5eGVCRDgvRVBDcjU0OTczOVlENFZscGx6NWRXM1RBc0RRMDFKM0YrNERIMGREUW1OcGJCd0ttbWkvN2VuWVJrcms0TUlxL1dQTVNjMU9Mb1g1aWdRcXlCYVdtWithbVFubmNJYW01QmFsRmlTV2xSVEFoVHJmVTVOSzhsTXlTU3FnQWwzdHFIa2hKWm40ZW1nV2NSZm5sZWpCTFFDNWphbUFBQXd5WEpPY2tGc05jQWhQa1Nra3NTZFJMS3dMcUIvTCtvV2xoenk4QTJRalV4QVNLR2xZMHpZeEZhQUw4cFhrZ2w2VG9KbWVVNW1YckdvSXNBRXRETUMrVVprTmlzMENzWlBvUE5Zb1ZGa1NwZWVtWmViRHdZTTFKVEVyTmdYTDRnRDRHZTFpdm9DZ3pyd1RtRTZCb3NWNUpma2tpVEIxWGNuNE9UQVRzTjRaL0FQTUYzWWlTQWdBQSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Regime"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Temperature"],"name":[2],"type":["int"],"align":["right"]},{"label":["Fecundity"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Generation"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"Ad","2":"13","3":"-20.51389","4":"6","_rn_":"1"},{"1":"Ad","2":"18","3":"-67.91486","4":"6","_rn_":"2"},{"1":"Ad","2":"23","3":"-93.66253","4":"6","_rn_":"3"},{"1":"Gro","2":"13","3":"-17.45833","4":"6","_rn_":"4"},{"1":"Gro","2":"18","3":"-49.54167","4":"6","_rn_":"5"},{"1":"Gro","2":"23","3":"-66.33152","4":"6","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKHRlbXBlcmF0dXJlKVxuYGBgIn0= -->
+<pre class="r"><code>str(temperature)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiJ2RhdGEuZnJhbWUnOlx0Mjcgb2JzLiBvZiAgNCB2YXJpYWJsZXM6XG4gJCBSZWdpbWUgICAgIDogY2hyICBcIkFkXCIgXCJBZFwiIFwiQWRcIiBcIkdyb1wiIC4uLlxuICQgVGVtcGVyYXR1cmU6IGludCAgMTMgMTggMjMgMTMgMTggMjMgMTMgMTggMjMgMTMgLi4uXG4gJCBGZWN1bmRpdHkgIDogbnVtICAtMjAuNSAtNjcuOSAtOTMuNyAtMTcuNSAtNDkuNSAuLi5cbiAkIEdlbmVyYXRpb24gOiBpbnQgIDYgNiA2IDYgNiA2IDYgNiA2IDE0IC4uLlxuIn0= -->
+<pre><code>&#39;data.frame&#39;:   27 obs. of  4 variables:
+ $ Regime     : chr  &quot;Ad&quot; &quot;Ad&quot; &quot;Ad&quot; &quot;Gro&quot; ...
+ $ Temperature: int  13 18 23 13 18 23 13 18 23 13 ...
+ $ Fecundity  : num  -20.5 -67.9 -93.7 -17.5 -49.5 ...
+ $ Generation : int  6 6 6 6 6 6 6 6 6 14 ...</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1798,6 +1814,11 @@ library(car)</code></pre>
 <p>This facilitates the analysis of the data</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWQ8LXN1YnNldCh0ZW1wZXJhdHVyZSwgUmVnaW1lPT1cIkFkXCIpXG5ncm88LXN1YnNldCh0ZW1wZXJhdHVyZSwgUmVnaW1lPT1cIkdyb1wiKVxubW88LXN1YnNldCh0ZW1wZXJhdHVyZSwgUmVnaW1lPT1cIk1vXCIpXG5gYGAifQ== -->
+<pre class="r"><code>ad&lt;-subset(temperature, Regime==&quot;Ad&quot;)
+gro&lt;-subset(temperature, Regime==&quot;Gro&quot;)
+mo&lt;-subset(temperature, Regime==&quot;Mo&quot;)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
