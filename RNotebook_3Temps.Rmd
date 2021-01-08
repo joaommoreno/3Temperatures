@@ -1,18 +1,115 @@
 ---
-title: "REPRODUCIBILITY IN SCIENCE - Day3 (3Temperature)"
+title: "REPRODUCIBILITY IN SCIENCE - Day 3"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+This script is prepared to analyse the dataset 3Temperature and answer the scientific question:
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+**Does adaptation to laboratory decrease plasticity?**
+
+The dataset corresponds to populations of *Drosophila subobscura* from 3 different locations Ad (Adraga, Portugal), Mo (Montpellier, France), Gro (Groningen, Netherlands) that were introduced in the laboratory. They spent 28 generations in new laboratory conditions. After foundation, each population was replicated 3 times so 3 independent replicates were evolving in the same conditions.
+
+The TA population is the control population, already adapted to the laboratory.
+
+Previous work has shown that populations in the first generation show high variation between the three populations at generation 4 and high plasticity at 13 and 23 degrees. The data corresponds to differences in mean number of eggs from each population to the control population. This allows to remove potential confounding effects due to assaying these populations in different time points.
+
+## Importing data into R
 
 ```{r}
-plot(cars)
+temperature<- read.csv("./Fec_3T.csv", header=TRUE, na.strings = "MV")
+head(temperature) #see a small sample of the dataset to check if properly imported
+str(temperature)
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+## Installing and importing libraries to be used
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+```{r}
+#install.packaged("ggplot2")
+library(ggplot2)
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+#install.packages("dplyr")
+library(dplyr)
+
+#install.packages("car")
+library(car)
+```
+
+## Creating a data set per population
+
+This facilitates the analysis of the data
+
+```{r}
+ad<-subset(temperature, Regime=="Ad")
+gro<-subset(temperature, Regime=="Gro")
+mo<-subset(temperature, Regime=="Mo")
+```
+
+## Testing differences between generations across temperatures
+
+To test these differences an ANOVA can be performed. This will test if there are differences between temperature across generations for each population.
+
+```{r}
+### Adraga population (Ad)
+modelAd<-lm(Fecundity~Generation*Temperature, data=ad)
+
+summary(modelAd)
+Anova(modelAd)
+```
+From the ANOVA results, you can conclude the following, based on the p-values:
+
+* the p-value of Generation is 0.013139 (<0.05) (significant), which indicates that the generation has a significant effect on the fecundity
+* the p-value of Temperature is 0.006596 (<0.01) (significant), which indicates that the temperature has a significant effect in fecundity
+* the p-value for the interaction between Generation:Temperature is 0.143325 (>0.1) (non-significant), which indicates that the interaction between generation and temperature has not a significant effect on Ad fecundity.
+
+```{r}
+#### Groningen population (Gro)
+
+modelGro<-lm(Fecundity~Generation*Temperature, data=gro)
+
+summary(modelGro)
+Anova(modelGro)
+```
+From the ANOVA results, you can conclude the following, based on the p-values:
+
+* the p-value of Generation is 0.02541 (<0.05) (significant), which indicates that the generation has a significant effect on the fecundity
+* the p-value of Temperature is 0.02478 (<0.05) (significant), which indicates that the temperature has a significant effect in fecundity
+* the p-value for the interaction between Generation:Temperature is 0.19518 (>0.1) (non-significant), which indicates that the interaction between generation and temperature has not a significant effect on Gro fecundity.
+
+```{r}
+#### Montpellier population (Mo)
+modelMo<-lm(Fecundity~Generation*Temperature, data=mo)
+
+summary(modelMo)
+Anova(modelMo)
+```
+
+
+From the ANOVA results, you can conclude the following, based on the p-values:
+
+* the p-value of Generation is 0.04065 (<0.05) (significant), which indicates that the generation has a significant effect on the fecundity
+* the p-value of Temperature is 0.03662 (<0.05) (significant), which indicates that the temperature has a significant effect in fecundity
+* the p-value for the interaction between Generation:Temperature is 0.25884 (>0.1) (non-significant), which indicates that the interaction between generation and temperature has not a significant effect on Mo fecundity.
+
+So, overall, for the 3 populations, generation and temperature alone have a significant effect of fecundity, while the interaction generation:temperature does not.
+
+## How does plasticity change throughout time?
+
+The following code is meant to create a plot per population, to see how plasticity changes through time, for each regime.
+
+```{r}
+plot_temp<-ggplot(temperature, aes(x=Generation, y=Fecundity, color=as.factor(Temperature), linetype=as.factor(Temperature)))+
+  facet_grid(.~Regime)+
+  geom_point()+
+  geom_line()+
+  scale_color_brewer(palette="Dark2") #this is just to use a colorblind safe palette
+ 
+plot_temp
+```
+As seen in the plot, overall, the fecundity increases with the generation, and the same pattern can be seen for the three temperatures.
+However, between the first and the second time points, for temperatures 18ºC and 23ºC the increase in fecundity is greater that for 13ºC (as seen by the slope of the lines in the plot). Exception goes to the temperature 18ºC in the Gro Population.
+Between the second and last time point, the increase of fecundity with generation appears to be similar for the three temperatures, and not so sharp, as seen by lower slopes (could this mean population are already adapting to the conditions?)
+
+```{r}
+#export the figure
+ggsave( "./Figure1.pdf")
+```
